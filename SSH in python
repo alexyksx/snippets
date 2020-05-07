@@ -1,0 +1,10 @@
+import paramiko
+client = paramiko.SSHClient()
+client.set_missing_host_key_policy(paramiko.client.AutoAddPolicy())
+client.connect( hostname='sasgpctl.unionbank.com',gss_auth =True )
+sftp =client.open_sftp()
+  
+filename = '/cfs/var/userdata/risk/stdm/sasprograms/retail/CECL2018/MTG/RESULT/mtg_model_2018.sas7bdat'
+with sftp.open(filename) as f:
+    mtg_model = pd.read_sas(f,format = 'sas7bdat',encoding='utf-8')
+
